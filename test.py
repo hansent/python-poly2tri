@@ -4,7 +4,6 @@ import sys
 from time import clock
 
 from p2t import *
-from point_set import dude
 
 # PyGame Constants
 import pygame
