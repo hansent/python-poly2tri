@@ -8,10 +8,16 @@ cdef class CDT:
         for point in polyline:
             self.polyline.push_back(new_Point(point.x, point.y))
         self.me = new_CDT(self.polyline)
-    
+        
     def triangulate(self):
         self.me.Triangulate()
-                
+    
+    def add_hole(self, polyline):
+        cdef point_vec hole = pointvec_factory(0)
+        for point in polyline:
+            hole.push_back(new_Point(point.x, point.y))
+        self.me.AddHole(hole)
+        
     property triangles:
         def __get__(self): 
           cdef triangle_vec tri_list = self.me.GetTriangles()

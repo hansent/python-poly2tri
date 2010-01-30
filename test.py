@@ -7,11 +7,14 @@ from p2t import *
 
 # PyGame Constants
 import pygame
-from pygame.gfxdraw import trigon
+from pygame.gfxdraw import trigon, line
 from pygame.locals import *
 from pygame import Color
 
-
+head_hole = [[325, 437],[320, 423], [329, 413], [332, 423]]
+chest_hole = [[320.72342,480],[338.90617,465.96863],[347.99754,480.61584],
+              [329.8148,510.41534], [339.91632,480.11077],[334.86556,478.09046]]
+  
 def load_points(file_name):
     infile = open(file_name, "r")
     points = []
@@ -20,7 +23,7 @@ def load_points(file_name):
         s = line.split()
         if len(s) == 0:
             break
-        points.append((float(s[0]), float(s[1])))
+        points.append([float(s[0]), float(s[1])])
     return points
 
 def main(file_name, translate, zoom):
@@ -32,27 +35,90 @@ def main(file_name, translate, zoom):
     
     black = Color(0,0,0)
     red = Color(255, 0, 0)
+    green = Color(0, 255, 0)
+    
     screen.fill(black)
     
     points = load_points(file_name)
     polyline = []  
            
     for p in points:
-        polyline.append(Point(p[0]*zoom + translate[0],p[1]*zoom + translate[1]))
+        p[0] = p[0]*zoom + translate[0]
+        p[1] = p[1]*zoom + translate[1]
+        polyline.append(Point(p[0],p[1]))
 
+    t0 = clock()
+    
+    ##
+    ## Step 1: Initialize
+    ##
     cdt = CDT(polyline)
     
-    t0 = clock()
+    ##
+    ## Step 2: Add holes if necessary
+    ##
+    if file_name == "data/dude.dat":
+        hole = []  
+        for p in head_hole:
+            p[0] = p[0]*zoom + translate[0]
+            p[1] = p[1]*zoom + translate[1]
+            hole.append(Point(p[0],p[1]))
+        cdt.add_hole(hole)
+        hole = []  
+        for p in chest_hole:
+            p[0] = p[0]*zoom + translate[0]
+            p[1] = p[1]*zoom + translate[1]
+            hole.append(Point(p[0],p[1]))
+        cdt.add_hole(hole)
+         
+    ##
+    ## Step 3: Triangulate
+    ##
     cdt.triangulate()
+    
     print "Elapsed time (ms) = " + str(clock()*1000.0)
     triangles = cdt.triangles
         
     # The Main Event Loop
     done = False
     while not done:
-        # Drawing:
+    
+        # Draw triangles
         for t in triangles:
-          trigon(screen, int(t.a.x), int(t.a.y), int(t.b.x), int(t.b.y), int(t.c.x), int(t.c.y), red)
+          x1 = int(t.a.x)
+          y1 = int(t.a.y)
+          x2 = int(t.b.x)
+          y2 = int(t.b.y)
+          x3 = int(t.c.x)
+          y3 = int(t.c.y)
+          trigon(screen, x1, y1, x2, y2, x3, y3, red)
+        
+        # Draw outline
+        for i in range(len(points)):
+            j = i+1 if i < len(points) - 1 else 0
+            x1 = int(points[i][0])
+            y1 = int(points[i][1])
+            x2 = int(points[j][0])
+            y2 = int(points[j][1])
+            line(screen, x1, y1, x2, y2, green)
+        
+        # Draw holes if necessary
+        if file_name == "data/dude.dat":
+            for i in range(len(head_hole)):
+              j = i+1 if i < len(head_hole) - 1 else 0
+              x1 = int(head_hole[i][0])
+              y1 = int(head_hole[i][1])
+              x2 = int(head_hole[j][0])
+              y2 = int(head_hole[j][1])
+              line(screen, x1, y1, x2, y2, green)
+            for i in range(len(chest_hole)):
+              j = i+1 if i < len(chest_hole) - 1 else 0
+              x1 = int(chest_hole[i][0])
+              y1 = int(chest_hole[i][1])
+              x2 = int(chest_hole[j][0])
+              y2 = int(chest_hole[j][1])
+              line(screen, x1, y1, x2, y2, green)
+              
         # Update the screen
         pygame.display.update()
             
