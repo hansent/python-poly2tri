@@ -14,7 +14,7 @@ from pygame import Color
 head_hole = [[325, 437],[320, 423], [329, 413], [332, 423]]
 chest_hole = [[320.72342,480],[338.90617,465.96863],[347.99754,480.61584],
               [329.8148,510.41534], [339.91632,480.11077],[334.86556,478.09046]]
-  
+
 def load_points(file_name):
     infile = open(file_name, "r")
     points = []
@@ -47,8 +47,9 @@ def main(file_name, translate, zoom):
         p[1] = p[1]*zoom + translate[1]
         polyline.append(Point(p[0],p[1]))
 
+    # initialize clock
     t0 = clock()
-    
+   
     ##
     ## Step 1: Initialize
     ##
@@ -74,10 +75,9 @@ def main(file_name, translate, zoom):
     ##
     ## Step 3: Triangulate
     ##
-    cdt.triangulate()
+    triangles = cdt.triangulate()
     
     print "Elapsed time (ms) = " + str(clock()*1000.0)
-    triangles = cdt.triangles
         
     # The Main Event Loop
     done = False
