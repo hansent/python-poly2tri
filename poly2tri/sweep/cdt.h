@@ -28,6 +28,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#ifndef CDT_H
+#define CDT_H
+
 #include "advancing_front.h"
 #include "sweep_context.h"
 #include "sweep.h"
@@ -42,9 +46,10 @@ public:
 CDT(std::vector<Point*> polyline);
 /// Destructor
 ~CDT();
-
 /// Add a hole
 void AddHole(std::vector<Point*> polyline);
+/// Add a single point
+void AddPoint(Point* point);
 /// Triangulate points
 void Triangulate();
 /// Get Delaunay triangles
@@ -60,3 +65,5 @@ Sweep* sweep_;
 };
 
 }
+
+#endif

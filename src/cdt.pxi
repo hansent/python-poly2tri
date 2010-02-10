@@ -26,6 +26,10 @@ cdef class CDT:
         for point in polyline:
             hole.push_back(new_Point(point.x, point.y))
         self.me.AddHole(hole)
+        
+    def add_point(self, point):
+        cdef c_Point* p = new_Point(point.x, point.y)
+        self.me.AddPoint(p)
 
     def __dealloc__(self):
         del_CDT(self.me)

@@ -28,11 +28,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "sweep_context.h"
 #include <algorithm>
-#include <GL/glfw.h>
+
+#include "sweep_context.h"
 #include "advancing_front.h"
-#include <iostream>
 
 namespace p2t {
 
@@ -40,7 +39,9 @@ SweepContext::SweepContext(std::vector<Point*> polyline)
 {
   basin = Basin();
   edge_event = EdgeEvent();
+
   points_ = polyline;
+
   InitEdges(points_);
 }
 
@@ -50,6 +51,10 @@ void SweepContext::AddHole(std::vector<Point*> polyline)
   for(int i = 0; i < polyline.size(); i++) {
     points_.push_back(polyline[i]);
   }
+}
+
+void SweepContext::AddPoint(Point* point) {
+  points_.push_back(point);
 }
 
 std::vector<Triangle*> SweepContext::GetTriangles()

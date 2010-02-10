@@ -28,6 +28,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#ifndef SWEEP_CONTEXT_H
+#define SWEEP_CONTEXT_H
+
 #include <list>
 #include <vector>
 
@@ -46,35 +50,41 @@ class AdvancingFront;
 class SweepContext {
 public:
 
-// Constructor
+/// Constructor
 SweepContext(std::vector<Point*> polyline);
-// Destructor
+/// Destructor
 ~SweepContext();
 
 void set_head(Point* p1);
+
 Point* head();
 
 void set_tail(Point* p1);
+
 Point* tail();
 
 int point_count();
 
 Node& LocateNode(Point& point);
+
 void RemoveNode(Node* node);
 
 void CreateAdvancingFront();
 
-// Try to map a node to all sides of this triangle that don't have a neighbor
+/// Try to map a node to all sides of this triangle that don't have a neighbor
 void MapTriangleToNodes(Triangle& t);
 
 void AddToMap(Triangle* triangle);
 
 Point* GetPoint(const int& index);
+
 Point* GetPoints();
 
 void RemoveFromMap(Triangle* triangle);
 
 void AddHole(std::vector<Point*> polyline);
+
+void AddPoint(Point* point);
 
 AdvancingFront* front();
 
@@ -82,7 +92,6 @@ void MeshClean(Triangle& triangle);
 
 std::vector<Triangle*> GetTriangles();
 std::list<Triangle*> GetMap();
-
 std::vector<Edge*> edge_list;
 
 struct Basin {
@@ -172,3 +181,5 @@ inline Point* SweepContext::tail()
 }
 
 }
+
+#endif

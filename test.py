@@ -33,6 +33,8 @@ def main(file_name, translate, zoom):
     screen = pygame.display.set_mode(SCREEN_SIZE,0,8)
     pygame.display.set_caption('poly2tri demo')
     
+    pygame.mouse.set_visible(True)
+    
     black = Color(0,0,0)
     red = Color(255, 0, 0)
     green = Color(0, 255, 0)
@@ -52,11 +54,13 @@ def main(file_name, translate, zoom):
    
     ##
     ## Step 1: Initialize
+    ## NOTE: polyline must be a simple polygon. The polyline's points
+    ## constitute constrained edges. No repeat points!!!
     ##
     cdt = CDT(polyline)
     
     ##
-    ## Step 2: Add holes if necessary
+    ## Step 2: Add holes and interior Steiner points if necessary
     ##
     if file_name == "data/dude.dat":
         hole = []  
@@ -64,13 +68,19 @@ def main(file_name, translate, zoom):
             p[0] = p[0]*zoom + translate[0]
             p[1] = p[1]*zoom + translate[1]
             hole.append(Point(p[0],p[1]))
+        # Add a hole
         cdt.add_hole(hole)
         hole = []  
         for p in chest_hole:
             p[0] = p[0]*zoom + translate[0]
             p[1] = p[1]*zoom + translate[1]
             hole.append(Point(p[0],p[1]))
+        # Add a hole
         cdt.add_hole(hole)
+        # Add an interior Steiner point
+        x = 361*zoom + translate[0]
+        y = 381*zoom + translate[1]
+        cdt.add_point(Point(x, y))
          
     ##
     ## Step 3: Triangulate
@@ -134,7 +144,7 @@ def main(file_name, translate, zoom):
                     break
                 if( e.key == K_f ):
                     pygame.display.toggle_fullscreen()
-
+        
     return
 
 if __name__=="__main__":
