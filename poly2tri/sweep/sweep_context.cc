@@ -28,9 +28,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include <algorithm>
-
 #include "sweep_context.h"
+#include <algorithm>
 #include "advancing_front.h"
 
 namespace p2t {
@@ -120,7 +119,7 @@ Node& SweepContext::LocateNode(Point& point)
   return *front_->LocateNode(point.x);
 }
 
-void SweepContext::CreateAdvancingFront()
+void SweepContext::CreateAdvancingFront(std::vector<Node*> nodes)
 {
   Node *head, *middle, *tail;
   // Initial triangle
@@ -131,8 +130,12 @@ void SweepContext::CreateAdvancingFront()
   head = new Node(*triangle->GetPoint(1), *triangle);
   middle = new Node(*triangle->GetPoint(0), *triangle);
   tail = new Node(*triangle->GetPoint(2));
-
   front_ = new AdvancingFront(*head, *tail); 
+  
+  // Memory management :)
+  nodes.push_back(head);
+  nodes.push_back(middle);
+  nodes.push_back(tail);
   
   // TODO: More intuitive if head is middles next and not previous?
   //       so swap head and tail
