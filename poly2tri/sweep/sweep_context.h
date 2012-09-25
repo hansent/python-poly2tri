@@ -32,8 +32,10 @@
 #ifndef SWEEP_CONTEXT_H
 #define SWEEP_CONTEXT_H
 
+#include <cstdlib>
 #include <list>
 #include <vector>
+
 
 namespace p2t {
 
