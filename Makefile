@@ -2,6 +2,8 @@ PYTHON = python
 
 .PHONY: build force clean distclean
 
+.DEFAULT: build
+
 build:
 	$(PYTHON) setup.py build_ext --inplace
 
@@ -13,11 +15,8 @@ install:
 
 clean:
 	-rm -rf build
-	-find p2t.so
-	-find . -iname '*.pyc' -exec rm {} \;
-	-find . -iname '*.pyo' -exec rm {} \;
+	-rm src/p2t.cpp
+	-rm p2t.so
 
 distclean: clean
 	-git clean -dxf
-
-
