@@ -1,0 +1,5 @@
+*.pyc
+*.pyo
+src/*.cpp
+build/*
+p2t.so
