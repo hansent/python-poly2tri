@@ -1,4 +1,27 @@
-﻿==================
+﻿This is a mirror/fork of the poly2tri.python project.
+
+I intend to keep the code mostly intact, but have converted the mercurial
+repo to git for worflow reasons, and may make slight changes according to needs.
+
+
+The original project can be found here: 
+http://code.google.com/p/poly2tri/source/checkout?repo=python
+
+it provides a python extension to use the C++ library poly2tri:
+http://code.google.com/p/poly2tri/
+
+
+Many thanks to the authors of this fine library:
+  Mason Green <mason.green@gmail.com> (C++, Python)
+  Thomas Åhlén <thahlen@gmail.com>    (Java)
+
+
+
+
+
+Below are the contents of the orignal README:
+
+==================
 INSTALLATION GUIDE
 ==================
 
