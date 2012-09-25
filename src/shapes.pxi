@@ -14,8 +14,8 @@ cdef class Point:
         def __get__(self): return self.y
         def __set__(self, y): self.y = y
         
-    def debug_print(self):
-        print "(" + str(self.x) + ", " + str(self.y) + ")",
+    def __str__(self):
+        return "Point({self.x}, {self.y})".format(self=self)
         
 cdef class Triangle:
     
@@ -35,9 +35,6 @@ cdef class Triangle:
     property c:
         def __get__(self): return self.c
         
-    def debug_print(self):
-        self.a.debug_print()
-        self.b.debug_print()
-        self.c.debug_print()
-        print
+    def __str__(self):
+        return "Triangle({self.a}, {self.b}, {self.c})".format(self=self)
         
